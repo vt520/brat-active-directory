@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>Brat.Driver</RootNamespace>
+    <PackageId>ActiveDirectoryDriver</PackageId>
+    <AssemblyName>ActiveDirectory</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>C:\Bratwurst\</OutputPath>
+  </PropertyGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="IF EXIST $(OutDir)Drivers\$(TargetName).* DEL $(OutDir)Drivers\$(TargetName).*" />
+  </Target>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="IF NOT EXIST &quot;$(OutDir)Drivers&quot; MKDIR &quot;$(OutDir)Drivers&quot;;&#xD;&#xA;MOVE &quot;$(TargetDir)$(TargetName).*&quot; &quot;$(OutDir)Drivers&quot;;" />
+  </Target>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="System.DirectoryServices" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Brat">
+      <HintPath>..\..\..\..\..\Bratwurst\net5.0\Brat.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
