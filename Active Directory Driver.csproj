@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>Brat.Driver</RootNamespace>
+    <RootNamespace>Brat.Drivers</RootNamespace>
     <PackageId>ActiveDirectoryDriver</PackageId>
     <AssemblyName>ActiveDirectory</AssemblyName>
   </PropertyGroup>

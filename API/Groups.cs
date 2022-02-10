@@ -6,8 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-#pragma warning disable CA1416 // Validate platform compatibility
-
 namespace Brat.Drivers {
     partial class ActiveDirectoryAPI {
         public dynamic AD_GetGroups() {
@@ -31,19 +29,19 @@ namespace Brat.Drivers {
                 query.Filter = $"(&({ldap_col}={identifier})(objectCategory=group)(name=*))";
                 SearchResultCollection results = query.FindAll();
                 if (results.Count == 1) {
-                    return new ActiveDirectoryGroup(results[0]);
+                    ActiveDirectoryGroup group = new ActiveDirectoryGroup(results[0]);
+                    return group;
                 }
             }
             return null;
         }
 
         public DirectorySearcher AD_QueryObject<T>() where T : MappedSearchResult {
-
             return null;
         }
 
         public DirectorySearcher AD_CreateGroupQuery() {
-            DirectorySearcher query = new DirectorySearcher(Driver.Connection);
+            DirectorySearcher query = new DirectorySearcher(Driver.Connection); // searchroot
             foreach (string ldap_property in ActiveDirectoryGroup.Mapping.Values) {
                 query.PropertiesToLoad.Add(ldap_property);
             }

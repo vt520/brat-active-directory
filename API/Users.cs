@@ -46,11 +46,14 @@ namespace Brat.Drivers {
 
     public class ActiveDirectoryUser : MappedSearchResult {
         public static new Dictionary<string, string> Mapping = new Dictionary<string, string> {
-                    {"Location", "l" },
-                    {"LdapName", "distinguishedName" },
-                    {"Email", "userPrincipalName" },
-                    {"Groups", "memberOf" }
-                };
+            {"Location", "l" },
+            {"LdapName", "distinguishedName" },
+            {"Email", "userPrincipalName" },
+            {"Groups", "memberOf" },
+            {"Name", "displayName" },
+            {"Position", "title" },
+            {"Manager", "manager" }
+        };
         public ActiveDirectoryUser(SearchResult source) : base(source) { }
 
         public static List<string> LdapFields() {

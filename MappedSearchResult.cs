@@ -1,9 +1,10 @@
 ﻿using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.DirectoryServices;
+using System.Dynamic;
 
 namespace Brat.Drivers {
-    public abstract class MappedSearchResult : JObject {
+    public abstract class MappedSearchResult : Expandable {
         public readonly SearchResult SourceRecord;
         public static Dictionary<string, string> Mapping = null;
         public MappedSearchResult(SearchResult source) {
@@ -19,12 +20,14 @@ namespace Brat.Drivers {
 
             foreach (KeyValuePair<string, string> map in CurrentMap) {
                 if (SourceRecord.Properties[map.Value].Count > 0) {
+                    object value = null;
                     if (SourceRecord.Properties[map.Value].Count == 1) {
-                        this[map.Key] = JToken.FromObject(SourceRecord.Properties[map.Value][0].ToString());
+                        value = SourceRecord.Properties[map.Value][0].ToString();
                         //                        this.TryAdd(map.Key, JToken.FromObject(SourceRecord.Properties[map.Value][0]));
                     } else {
-                        this.TryAdd(map.Key, JToken.FromObject(SourceRecord.Properties[map.Value]));
+                        value = SourceRecord.Properties[map.Value];
                     }
+                    if(value is not null) this[map.Key] = value;
                 }
             }
         }
